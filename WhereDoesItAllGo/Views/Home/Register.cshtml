@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Register</h2><br />
+First Name:<br />
+<input type="text" id="txtFirstName" /><br />
+Last Name:<br/>
+<input type="text" id="txtLastName" /><br />
+Email Address:<br />
+<input type="text" id="txtEmail" /><br />
+Password:<br />
+<input type="password" id="txtPassword" /><br />
+Initial Balance:<br />
+<input type="text" id="txtInitialBalance" /><br />
+
+<input type="button" id="btnSubmitRegister" onclick="Register()" />
+
+<script type="text/javascript">
+    function Register() {
+        var error = false;
+        var firstName = $.trim($("txtFirstName").val());
+        var lastName = $.trim($("txtLastName").val());
+        var email = $.trim($("txtEmail").val());
+        var password = $("txtPassword").val();
+    }
+</script>
