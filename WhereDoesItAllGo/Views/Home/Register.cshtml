@@ -3,6 +3,22 @@
 }
 
 <h2>Register</h2><br />
+<div id="divFirstNameRequired" class="error" style="display:none">
+    <ul><li><span style="color:red">First Name is required!</span></li></ul>
+</div>
+<div id="divLastNameRequired" class="error" style="display:none">
+    <ul><li><span style="color:red">Last Name is required!</span></li></ul>
+</div>
+<div id="divEmailInvalid" class="error" style="display:none">
+    <ul><li><span style="color:red">Email address is invalid!</span></li></ul>
+</div>
+<div id="divPasswordInvalid" class="error" style="display:none">
+    <ul><li><span style="color:red">Password is invalid!</span></li></ul>
+</div>
+<div id="divInitialBalanceInvalid" class="error" style="display:none">
+    <ul><li><span style="color:red">Initial Balance must be greater than 0.</span></li></ul>
+</div>
+
 First Name:<br />
 <input type="text" id="txtFirstName" /><br />
 Last Name:<br/>
@@ -14,14 +30,67 @@ Password:<br />
 Initial Balance:<br />
 <input type="text" id="txtInitialBalance" /><br />
 
-<input type="button" id="btnSubmitRegister" onclick="Register()" />
+<input type="button" id="btnSubmitRegister" onclick="Register()" value="Register" />
 
 <script type="text/javascript">
     function Register() {
         var error = false;
+        var errorDivs = Array();
         var firstName = $.trim($("txtFirstName").val());
         var lastName = $.trim($("txtLastName").val());
         var email = $.trim($("txtEmail").val());
         var password = $("txtPassword").val();
+        var initialBalance = $('#txtInitialBalance').val();
+
+        if (firstName.length < 1) {
+            error = true;
+            errorDivs.push("divFirstNameRequired");
+        }
+        else {
+            errorDivs.splice(errorDivs.indexOf("divFirstNameRequired"), 1);
+        }
+        if (lastName.length < 1) {
+            error = true;
+            errorDivs.push("divLastNameRequired");
+        }
+        else {
+            errorDivs.splice(errorDivs.indexOf("divLastNameRequired"), 1);
+        }
+        if (email.length < 1 || email.indexOf("@@") == -1) {
+            error = true;
+            errorDivs.push("divEmailInvalid");
+        }
+        else {
+            errorDivs.splice(errorDivs.indexOf("divEmailInvalid"), 1);
+        }
+        if (password.length < 6) {
+            error = true;
+            errorDivs.push("divPasswordInvalid");
+        }
+        else {
+            errorDivs.splice(errorDivs.indexOf("divPasswordInvalid"), 1);
+        }
+        if (isNaN(initialBalance) || initialBalance < 0) {
+            error = true;
+            errorDivs.push("divInitialBalanceInvalid");
+        }
+        else {
+            errorDivs.splice(errorDivs.indexOf("divInitialBalanceInvalid"), 1);
+        }
+
+        if (error) {
+            ShowErrorDiv(errorDivs);
+        }
+        else {
+            //submit the registration data
+        }
+
+    }
+
+    function ShowErrorDivs(errorDivs) {
+        $('.error').hide();
+        for(var i = 0; i < errorDivs.length;i++){
+            $('#' + errorDivs[i]).show();
+        }
     }
 </script>
