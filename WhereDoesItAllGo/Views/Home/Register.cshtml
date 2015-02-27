@@ -36,10 +36,10 @@ Initial Balance:<br />
     function Register() {
         var error = false;
         var errorDivs = Array();
-        var firstName = $.trim($("txtFirstName").val());
-        var lastName = $.trim($("txtLastName").val());
-        var email = $.trim($("txtEmail").val());
-        var password = $("txtPassword").val();
+        var firstName = $.trim($("#txtFirstName").val());
+        var lastName = $.trim($("#txtLastName").val());
+        var email = $.trim($("#txtEmail").val());
+        var password = $('#txtPassword').val();
         var initialBalance = $('#txtInitialBalance').val();
 
         if (firstName.length < 1) {
@@ -47,42 +47,53 @@ Initial Balance:<br />
             errorDivs.push("divFirstNameRequired");
         }
         else {
-            errorDivs.splice(errorDivs.indexOf("divFirstNameRequired"), 1);
+            if (errorDivs.indexOf("divFirstNameRequired") > 0) {
+                errorDivs.splice(errorDivs.indexOf("divFirstNameRequired"), 1);
+            }
         }
         if (lastName.length < 1) {
             error = true;
             errorDivs.push("divLastNameRequired");
         }
         else {
-            errorDivs.splice(errorDivs.indexOf("divLastNameRequired"), 1);
+            if (errorDivs.indexOf("divLastNameRequired") > 0) {
+                errorDivs.splice(errorDivs.indexOf("divLastNameRequired"), 1);
+            }
         }
         if (email.length < 1 || email.indexOf("@@") == -1) {
             error = true;
             errorDivs.push("divEmailInvalid");
         }
         else {
-            errorDivs.splice(errorDivs.indexOf("divEmailInvalid"), 1);
+            if (errorDivs.indexOf("divEmailInvalid") > 0) {
+                errorDivs.splice(errorDivs.indexOf("divEmailInvalid"), 1);
+            }
         }
         if (password.length < 6) {
             error = true;
             errorDivs.push("divPasswordInvalid");
         }
         else {
-            errorDivs.splice(errorDivs.indexOf("divPasswordInvalid"), 1);
+            if (errorDivs.indexOf("divPasswordInvalid") > 0) {
+                errorDivs.splice(errorDivs.indexOf("divPasswordInvalid"), 1);
+            }
         }
-        if (isNaN(initialBalance) || initialBalance < 0) {
+        if (isNaN(initialBalance) || initialBalance < 0 || initialBalance == "") {
             error = true;
             errorDivs.push("divInitialBalanceInvalid");
         }
         else {
-            errorDivs.splice(errorDivs.indexOf("divInitialBalanceInvalid"), 1);
+            if (errorDivs.indexOf("divInitialBalanceInvalid") > 0) {
+                errorDivs.splice(errorDivs.indexOf("divInitialBalanceInvalid"), 1);
+            }
         }
 
         if (error) {
-            ShowErrorDiv(errorDivs);
+            ShowErrorDivs(errorDivs);
         }
         else {
             //submit the registration data
+            $('.error').hide();
         }
 
     }
