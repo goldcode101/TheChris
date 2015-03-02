@@ -34,5 +34,25 @@ namespace WhereDoesItAllGo.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Register(string FirstName, string LastName, string Email, string Password, string InitialBalance)
+        {
+            var statusMessage = "";
+            Decimal initialBalance;
+            try
+            {
+                initialBalance = Convert.ToDecimal(InitialBalance);
+            }
+            catch(Exception ex){
+                statusMessage = "There was a problem with your initial balance.";
+                ViewBag.StatusMessage = statusMessage;
+                return View();
+            }
+
+            
+
+            return View();
+        }
+
     }
 }

@@ -18,17 +18,22 @@
 <div id="divInitialBalanceInvalid" class="error" style="display:none">
     <ul><li><span style="color:red">Initial Balance must be greater than 0.</span></li></ul>
 </div>
+<div id="divStatusMessage" class="error" style="@(ViewBag.StatusMessage == null || ViewBag.StatusMessage == "" ? "display:none" : "display:block")">
+    <ul><li><span style="color:red">@(ViewBag.StatusMessage ?? "")</span></li></ul>
+</div>
 
-First Name:<br />
-<input type="text" id="txtFirstName" /><br />
-Last Name:<br/>
-<input type="text" id="txtLastName" /><br />
-Email Address:<br />
-<input type="text" id="txtEmail" /><br />
-Password:<br />
-<input type="password" id="txtPassword" /><br />
-Initial Balance:<br />
-<input type="text" id="txtInitialBalance" /><br />
+<form id="frmRegister" action="@Url.Action("Register")" method="post">
+    First Name:<br />
+    <input type="text" id="txtFirstName" name="FirstName" /><br />
+    Last Name:<br />
+    <input type="text" id="txtLastName" name="LastName" /><br />
+    Email Address:<br />
+    <input type="text" id="txtEmail" name="Email" /><br />
+    Password:<br />
+    <input type="password" id="txtPassword" name="Password" /><br />
+    Initial Balance:<br />
+    <input type="text" id="txtInitialBalance" name="InitialBalance" /><br />
+</form>
 
 <input type="button" id="btnSubmitRegister" onclick="Register()" value="Register" />
 
@@ -94,6 +99,7 @@ Initial Balance:<br />
         else {
             //submit the registration data
             $('.error').hide();
+            $("#frmRegister").submit();
         }
 
     }
