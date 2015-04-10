@@ -43,13 +43,14 @@ namespace WhereDoesItAllGo.Controllers
             {
                 initialBalance = Convert.ToDecimal(InitialBalance);
             }
-            catch(Exception ex){
+            catch(Exception ex)
+            {
                 statusMessage = "There was a problem with your initial balance.";
                 ViewBag.StatusMessage = statusMessage;
                 return View();
             }
 
-            
+            var success = new UserBL().Insert(FirstName, LastName, Email, Password, InitialBalance);
 
             return View();
         }
