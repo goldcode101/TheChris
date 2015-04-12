@@ -46,12 +46,26 @@ namespace WhereDoesItAllGo.Controllers
             catch(Exception ex)
             {
                 statusMessage = "There was a problem with your initial balance.";
-                ViewBag.StatusMessage = statusMessage;
-                return View();
             }
 
-            var success = new UserBL().Insert(FirstName, LastName, Email, Password, InitialBalance);
-
+            try
+            {
+                var success = new UserBL().AddUser(FirstName, LastName, Email, Password, InitialBalance);
+                if (success)
+                {
+                    statusMessage = "Successfully registered. <a href='../Login.cshtml'>Click here</a> to login to your account.";
+                }
+                else
+                {
+                    statusMessage = "There was a problem registering this user.";
+                }
+            }
+            catch (Exception ex)
+            {
+                statusMessage = "There was a problem registering this user.";
+            }
+            
+            ViewBag.StatusMessage = statusMessage;
             return View();
         }
 
