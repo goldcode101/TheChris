@@ -1,0 +1,11 @@
+﻿body {
+
+}
+
+.rcorners {
+    border-radius: 10px;
+    background: #CEFF90;
+    padding: 5px; 
+    width: 600px;
+    height: 20px; 
+}

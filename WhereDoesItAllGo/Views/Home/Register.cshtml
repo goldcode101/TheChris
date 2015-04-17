@@ -18,9 +18,13 @@
 <div id="divInitialBalanceInvalid" class="error" style="display:none">
     <ul><li><span style="color:red">Initial Balance must be greater than 0.</span></li></ul>
 </div>
-<div id="divStatusMessage" class="error" style="@(ViewBag.StatusMessage == null || ViewBag.StatusMessage == "" ? "display:none" : "display:block")">
-    <ul><li><span style="color:red">@(ViewBag.StatusMessage ?? "")</span></li></ul>
-</div>
+@if (ViewBag.StatusMessage != null)
+{
+    <div id="divStatusMessage" class="rcorners">
+        <span style="color:@(ViewBag.StatusMessage.Contains("Successfully registered.") ? "green" : "red")">@(ViewBag.StatusMessage ?? "")</span>
+    </div>
+}
+
 
 <form id="frmRegister" action="@Url.Action("Register")" method="post">
     First Name:<br />
