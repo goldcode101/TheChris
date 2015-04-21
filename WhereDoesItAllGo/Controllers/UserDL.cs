@@ -9,10 +9,11 @@ namespace WhereDoesItAllGo.Controllers
 {
     public class UserDL
     {
-        public bool Insert(string FirstName, string LastName, string Email, string Password, string InitialBalance)
-        {
-            string connectionString = "User ID=sa;Password=cl91SqlServer;Initial Catalog=ExpenseLog;Server=CHRIS-PC";
+        string connectionString = "User ID=sa;Password=cl91SqlServer;Initial Catalog=ExpenseLog;Server=CHRIS-PC";
 
+        public int Insert(string FirstName, string LastName, string Email, string Password, string InitialBalance)
+        {
+            int userId;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand(
@@ -26,10 +27,35 @@ namespace WhereDoesItAllGo.Controllers
                 cmd.Parameters.AddWithValue("@InitialBalance", Convert.ToDecimal(InitialBalance));
 
                 connection.Open();
-                cmd.ExecuteNonQuery();
+                try
+                {
+                    userId = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+                catch (Exception ex)
+                {
+                    userId = -1;
+                }
             }
 
-            return true;
+            return userId;
+        }
+
+        public User GetUser(int userId)
+        {
+            User user;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(
+                    "SELECT Users (UserID) VALUES (@UserID)");
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = connection;
+                cmd.Parameters.AddWithValue("@UserID", userId);
+
+                connection.Open();
+                user = new User();
+            }
+
+            return user;
         }
     }
 }
