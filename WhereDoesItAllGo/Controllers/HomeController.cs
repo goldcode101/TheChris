@@ -24,19 +24,33 @@ namespace WhereDoesItAllGo.Controllers
             dashboardVM.UserFirstName = currentUser.FirstName;
             dashboardVM.UserLastName = currentUser.LastName;
 
-
-
-
-            return View();
+            return View(dashboardVM);
         }
 
         public ActionResult Login()
         {
             if (Session["UserID"] != null) return RedirectToAction("Dashboard");
 
-
-
             return View();
+        }
+        
+        [HttpPost]
+        public ActionResult Login(string Email, string Password)
+        {
+            int userID;
+            if (String.IsNullOrEmpty(Email) || String.IsNullOrEmpty(Password))
+                userID = -1;
+            else
+                userID = _userBL.ValidateUser(Email, Password);
+
+            if (userID > 0)
+            {
+                Session["UserID"] = userID;
+                return RedirectToAction("Dashboard");
+            }
+            else
+                return View();
+            
         }
 
         public ActionResult Register()

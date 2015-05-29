@@ -3,10 +3,22 @@
 }
 
 <h2>Login</h2>
-Enter your username or email address:<br />
-<input type="text" id="txtLoginEmail" /><br />
-Enter your password:<br />
-<input type="password" id="txtLoginPassword" />
-<br />
+<form id="frmLogin" action="~/Home/Login" method="post">
+    Enter your username or email address:<br />
+    <input type="text" id="txtLoginEmail" name="Email" /><br />
+    Enter your password:<br />
+    <input type="password" id="txtLoginPassword" name="Password" />
+    <br />
+    <input id="btnLogin" type="button" value="Login" onclick="Login()" />
+</form>
 <br />
 Don't have an account? Click here to <a href="@Url.Action("Register")">Register</a>
+
+<script>
+    function Login() {
+        var un = $.trim($('#txtLoginEmail').val());
+        var pwd = $.trim($('#txtLoginPassword').val());
+
+        $('#frmLogin').submit();
+    }
+</script>

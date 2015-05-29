@@ -42,20 +42,65 @@ namespace WhereDoesItAllGo.Controllers
 
         public User GetUser(int userId)
         {
-            User user;
+            User user = new User();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand(
-                    "SELECT Users (UserID) VALUES (@UserID)");
+                    "SELECT UserID, Email, FirstName, LastName, InitialBalance, Password FROM Users WHERE UserID = @UserID");
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = connection;
                 cmd.Parameters.AddWithValue("@UserID", userId);
 
                 connection.Open();
-                user = new User();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        user.UserID = Convert.ToInt32(dr["UserID"]);
+                        user.Email = dr["Email"].ToString();
+                        user.FirstName = dr["FirstName"].ToString();
+                        user.LastName = dr["LastName"].ToString();
+                        user.InitialBalance = Convert.ToDecimal(dr["InitialBalance"]);
+                        user.Password = dr["Password"].ToString();
+                    }
+                }
             }
 
             return user;
+        }
+
+        public int ValidateUser(string Email, string Password)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(
+                    "SELECT UserID FROM Users WHERE (Email = @Email AND Password = @Password)");
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = connection;
+                cmd.Parameters.AddWithValue("@Email", Email);
+                cmd.Parameters.AddWithValue("@Password", Password);
+
+                connection.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                //if (dr != null)
+                //    return Convert.ToInt32(dr[0].ToString());
+                //else
+                //    return -1;
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        return Convert.ToInt32(dr["UserID"].ToString());
+                    }
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            return -1;
         }
     }
 }

@@ -16,5 +16,10 @@ namespace WhereDoesItAllGo.Controllers
         {
             return new UserDL().GetUser(userId);
         }
+
+        public int ValidateUser(string Email, string Password)
+        {
+            return new UserDL().ValidateUser(Email, Password);
+        }
     }
 }
